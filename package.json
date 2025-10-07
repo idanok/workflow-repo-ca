@@ -7,25 +7,22 @@
   "scripts": {
     "dev": "npx tailwindcss -i ./css/input.css -o ./css/style.css --watch",
     "prepare": "husky install",
-    "test": "vitest"
+    "test": "vitest",
+    "test:e2e": "playwright test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-<<<<<<< HEAD
     "@eslint/css": "^0.11.1",
     "@eslint/js": "^9.36.0",
     "@eslint/json": "^0.13.2",
     "@eslint/markdown": "^7.3.0",
+    "@playwright/test": "^1.55.1",
+    "dotenv": "^17.2.3",
     "eslint": "^9.36.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.4.0",
-    "prettier": "^3.6.2",
-    "tailwindcss": "^3.4.12"
-=======
-    "eslint": "^9.36.0",
-    "eslint-plugin-react": "^7.33.1",
     "husky": "^8.0.0",
     "jsdom": "^27.0.0",
     "lint-staged": "^13.3.0",
@@ -41,6 +38,5 @@
     "*.html": [
       "npx prettier --write"
     ]
->>>>>>> 984bb13 (Add Vitest setup and tests for isActivePath and getUserName)
   }
 }

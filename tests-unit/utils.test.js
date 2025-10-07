@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isActivePath, getUserName } from './utils.js'; // adjust path if needed
+import { isActivePath, getUserName } from '../utils.js'; // adjust path if needed
 
 describe('isActivePath', () => {
   it('returns true when current path matches href exactly', () => {
