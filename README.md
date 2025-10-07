@@ -10,7 +10,7 @@ The goal of this assignment is to apply what I have learned in the workflow cour
 - Automate code quality checks with ESLint, Prettier, and Husky
 - Plan and execute both unit tests and E2E tests
 
-## 🛠️ Setup
+## ⚙️ Setup
 1. Clone the repository
 git clone <your-forked-repo-url>
 cd workflow-repo-ca
