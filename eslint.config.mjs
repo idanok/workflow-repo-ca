@@ -19,7 +19,7 @@ export default defineConfig([
     plugins: { js, react: pluginReact },
     rules: {
       "react/display-name": "off",
-      "react/prop-types": "off", // optional
+      "react/prop-types": "off",
     },
   },
 

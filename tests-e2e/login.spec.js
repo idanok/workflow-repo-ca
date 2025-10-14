@@ -2,40 +2,59 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Login', () => {
 
-  test('User can log in with valid credentials', async ({ page }) => {
-    await page.goto('http://localhost:3000/login');
+  test('User can log in with valid credentials', async ({ page, baseURL }) => {
+    // Use trailing slash to match the login route
+    await page.goto('/login/');
 
-    // Fill in credentials from environment variables
-    await page.fill('input[name="email"]', process.env.TEST_EMAIL);
-    await page.fill('input[name="password"]', process.env.TEST_PASSWORD);
+    // Wait for the login form to appear
+    await page.waitForSelector('input[name="email"]', { timeout: 10000 });
+    await page.waitForSelector('input[name="password"]', { timeout: 10000 });
 
-    // Submit form
+    // Fill credentials from environment variables
+    const email = process.env.TEST_EMAIL;
+    const password = process.env.TEST_PASSWORD;
+
+    if (!email || !password) {
+      throw new Error('TEST_EMAIL and TEST_PASSWORD must be set in .env');
+    }
+
+    await page.fill('input[name="email"]', email);
+    await page.fill('input[name="password"]', password);
+
+    // Submit the form
     await page.click('button[type="submit"]');
 
-    // Check that we land on the home page
-    await expect(page).toHaveURL('http://localhost:3000/');
+    // Wait for navigation to home page
+    await page.waitForURL(`${baseURL}/`, { timeout: 10000 });
 
-    // Check the welcome heading
-    await expect(page.locator('h1')).toHaveText(/Welcome to this site/i);
+    // Confirm successful login
+    const heading = page.locator('h1');
+    await expect(heading).toHaveText(/Welcome to this site/i);
   });
 
   test('Shows error message with invalid credentials', async ({ page }) => {
-    await page.goto('http://localhost:3000/login');
+    await page.goto('/login/');
 
-    // Fill in invalid email to trigger the actual validation message
+    // Wait for the login form
+    await page.waitForSelector('input[name="email"]', { timeout: 10000 });
+    await page.waitForSelector('input[name="password"]', { timeout: 10000 });
+
+    // Fill invalid credentials (non-Noroff email)
     await page.fill('input[name="email"]', 'wrong@example.com');
     await page.fill('input[name="password"]', 'wrongpassword');
 
+    // Submit the form
     await page.click('button[type="submit"]');
 
-    // Wait for the error message to appear and check its text
+    // Wait for the error message to appear
     const message = page.locator('#message-container');
     await expect(message).toBeVisible({ timeout: 5000 });
 
-    // Check for the actual message from the page
+    // Match the exact Noroff email validation message
     await expect(message).toHaveText(
-      /Please enter a noroff\.no or stud\.noroff\.no email address/i
+      /Please enter a noroff\.no or stud\.noroff\.no email address\./i
     );
   });
 
 });
+
